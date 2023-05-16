@@ -12,6 +12,24 @@ class App extends Component {
     filter: '',
   };
 
+  componentDidMount() {
+    const localData = localStorage.getItem('contacts');
+    const parsedData = JSON.parse(localData);
+
+    if (parsedData) {
+      this.setState({ contacts: parsedData });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const nextContacts = this.state.contacts;
+    const prevContacts = prevState.contacts;
+
+    if (prevContacts !== nextContacts) {
+      localStorage.setItem('contacts', JSON.stringify(nextContacts));
+    }
+  }
+
   handleChange = e => {
     const { name, value } = e.target;
     this.setState({
@@ -48,7 +66,7 @@ class App extends Component {
   };
 
   render() {
-    const { filter, contacts } = this.state;
+    const { filter } = this.state;
     const filterContacts = this.findFilter();
     return (
       <div className={css.container}>
@@ -58,7 +76,7 @@ class App extends Component {
         <Header titleContacts="Contacts" />
         <ContactList
           contacts={filterContacts}
-          deleteContact={this.deleteContact(contacts.id)}
+          deleteContact={this.deleteContact}
         />
       </div>
     );

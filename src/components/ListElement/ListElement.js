@@ -1,7 +1,7 @@
 import React from 'react';
 import css from './ListElement.module.css';
 
-const ListElement = ({ onDeleteContact, number, name }) => {
+const ListElement = ({ deleteContact, number, name, id }) => {
   return (
     <>
       <p className={css.contacts__text}>
@@ -10,7 +10,9 @@ const ListElement = ({ onDeleteContact, number, name }) => {
       <button
         type="button"
         className={css.contacts__btn}
-        onClick={onDeleteContact}
+        onClick={() => {
+          deleteContact(id);
+        }}
       >
         Delete
       </button>
